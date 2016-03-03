@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
 import android.view.View;
+
 import android.view.WindowManager;
 
 import com.example.jon.draw.graphics.Arc;
@@ -37,6 +38,7 @@ public class DrawView extends View {
     private boolean circle_has_drawed = false;
     private boolean arc_has_drawed = false;
     private int firstCommand = -1;
+
     private int width;
     private int height;
 
@@ -48,6 +50,7 @@ public class DrawView extends View {
         width = wm.getDefaultDisplay().getWidth();
         height = wm.getDefaultDisplay().getHeight();
         mBitmap = Bitmap.createBitmap(width,height, Bitmap.Config.RGB_565);
+
         mPaint = new Paint();
         mPaint.setColor(Color.BLUE);
         mPaint.setStrokeWidth(7.0f);
@@ -68,7 +71,9 @@ public class DrawView extends View {
         rect_has_drawed = true;
 
         if(bitmap == null){
+
             mBitmap = Bitmap.createBitmap(width,height, Bitmap.Config.RGB_565);
+
             mCanvas = new Canvas(mBitmap);
             mCanvas.drawColor(Color.WHITE);
             firstCommand = DrawCommand.DRAW_RECT;
@@ -114,7 +119,9 @@ public class DrawView extends View {
     public void drawOval(Oval oval,Bitmap bitmap){
         oval_has_drawed = true;
         if(bitmap == null){
+
             mBitmap = Bitmap.createBitmap(width,height, Bitmap.Config.RGB_565);
+
             mCanvas = new Canvas(mBitmap);
             mCanvas.drawColor(Color.WHITE);
             firstCommand = DrawCommand.DRAW_OVAL;
@@ -155,7 +162,9 @@ public class DrawView extends View {
     public void drawCircle(Circle circle,Bitmap bitmap){
         circle_has_drawed = true;
         if(bitmap == null){
+
             mBitmap = Bitmap.createBitmap(width,height, Bitmap.Config.RGB_565);
+
             mCanvas = new Canvas(mBitmap);
             mCanvas.drawColor(Color.WHITE);
             firstCommand = DrawCommand.DRAW_CIRCLE;
@@ -197,7 +206,9 @@ public class DrawView extends View {
         arc_has_drawed = true;
 
         if(bitmap == null){
+
             mBitmap = Bitmap.createBitmap(width,height, Bitmap.Config.RGB_565);
+
             mCanvas = new Canvas(mBitmap);
             mCanvas.drawColor(Color.WHITE);
             firstCommand = DrawCommand.DRAW_ARC;

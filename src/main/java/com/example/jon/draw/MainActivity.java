@@ -43,13 +43,17 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private Arc arc;
     private Button save_Button;
     private Button open_Button;
+
     private RadioGroup radioGroup;
+
+
     private int command = DrawView.DrawCommand.DRAW_RECT;
 
 
     private EditText angle_EditText;
     private float startAngle = 30;
     private float sweepAngle=190;
+
 
     private CheckBox move_CheckBox;
     private boolean has_find_which_moving = false;
@@ -60,14 +64,21 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         drawView = new DrawView(this);
+
         setContentView(R.layout.content_main);
 
         drawLayout = (LinearLayout)findViewById(R.id.draw_layout);
         //drawLayout = (LinearLayout)findViewById(R.id.demo_layout);
+
+
+
+
+
         drawLayout.addView(drawView);
         drawView.setOnTouchListener(this);
 
@@ -76,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
         save_Button = (Button)findViewById(R.id.save_button);
         open_Button = (Button)findViewById(R.id.open_button);
+
         radioGroup = (RadioGroup)findViewById(R.id.radio);
 
         move_CheckBox =(CheckBox)findViewById(R.id.move_checkbox);
@@ -87,11 +99,16 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             }
         });
 
+
+
         save_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 FileUtils.savePicture(DrawView.finished_list_Rect, DrawView.finished_list_Oval,
                         DrawView.finished_list_Circle, DrawView.finished_list_Arc);
+
+
             }
         });
 
@@ -102,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 drawView.drawRect(null, null);
             }
         });
+
 
 
 
@@ -129,18 +147,21 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
 
 
+
     }
 
 
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+
         RelativeLayout function_layout = (RelativeLayout)findViewById(R.id.function_layout);
         //revise_h = function_layout.getHeight()+145;
         //LinearLayout function_layout = (LinearLayout)findViewById(R.id.demo_f);
         revise_w = 25;
         revise_h = getStatusBarHeight()+function_layout.getHeight();
         revise_w = 0;
+
         //Log.d("data", "" + revise);
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
@@ -149,6 +170,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 if(command == DrawView.DrawCommand.DRAW_RECT){
 
                     rect = whichRectF_continuedraw(start_x, start_y);
+
                     if(rect != null){
                         if(rect.left == 0.1f){
                             start_x = rect.right;
@@ -183,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                     oval = whichOval_continuedraw(start_x, start_y);
                     Log.d("data","))))))))))))))))))))");
 
+
                     if(oval != null){
                         if(oval.rect.left == 0.1f){
                             start_x = oval.rect.right;
@@ -214,6 +237,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 if(command == DrawView.DrawCommand.DRAW_CIRCLE) {
 
                     circle = whichCircle_continuedraw(start_x, start_y);
+
                     //继续画
                     //circle = null;
                     Log.d("data", "Circle continue drawing~~~~ ");
@@ -255,6 +279,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                     }
 
                     arc = whichArc_continuedraw(start_x, start_y);
+
                     if (arc != null) {
                         Log.d("data", "arc continue drawing~~~~");
 
@@ -293,10 +318,12 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                     Log.d("data", "is moving");
 
                     if(command == DrawView.DrawCommand.DRAW_RECT){
+
                         if(!has_find_which_moving){
                             rect = whichRectF_move(start_x, start_y);
                             if(rect == null)
                                 break;
+                            Log.d("data","//////////////////");
                             cache_for_move.left = rect.left;
                             cache_for_move.right = rect.right;
                             cache_for_move.top = rect.top;
@@ -319,10 +346,14 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                         rect.bottom = cache_for_move.bottom + distance_y;
                         rect.left = cache_for_move.left + distance_x;
                         rect.right = cache_for_move.right + distance_x;
+
+
+
                         drawView.drawRect(rect,null);
                     }
 
                     if(command == DrawView.DrawCommand.DRAW_OVAL){
+
                         if(!has_find_which_moving){
                             oval = whichOval_move(start_x, start_y);
                             if(oval == null)
@@ -337,20 +368,25 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                         }
 
 
+
+
                         if(oval == null)
                             break;
                         Log.d("data","Oval is not  null!!");
                         float distance_x = current_x - start_x;
                         float distance_y = current_y - start_y;
+
                         oval.rect.top = cache_for_move.top + distance_y;
                         oval.rect.bottom = cache_for_move.bottom + distance_y;
                         oval.rect.left = cache_for_move.left + distance_x;
                         oval.rect.right = cache_for_move.right + distance_x;
+
                         drawView.drawOval(oval, null);
 
 
                     }
                     if(command == DrawView.DrawCommand.DRAW_CIRCLE){
+
                         if(!has_find_which_moving){
                             circle = whichCircle_move(start_x,start_y);
                             if(circle == null)
@@ -363,16 +399,21 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                             has_find_which_moving = true;
                         }
 
+
                         Log.d("data","+++++++++++++++++");
                         if(circle == null)
                             break;
                         Log.d("data","可以找到Circle");
                         float distance_x = current_x - start_x;
                         float distance_y = current_y - start_y;
+
                         circle.rect.top = cache_for_move.top + distance_y;
                         circle.rect.bottom = cache_for_move.bottom + distance_y;
                         circle.rect.left = cache_for_move.left + distance_x;
                         circle.rect.right = cache_for_move.right + distance_x;
+
+                       ;
+
 
                         //画圆
                         drawView.drawCircle(circle,null);
@@ -382,6 +423,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
                     }
                     if(command == DrawView.DrawCommand.DRAW_ARC){
+
 
                         if(!has_find_which_moving){
                             arc = whichArc_move(start_x,start_y);
@@ -403,6 +445,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                         arc.rect.bottom = cache_for_move.bottom + distance_y;
                         arc.rect.left = cache_for_move.left + distance_x;
                         arc.rect.right = cache_for_move.right + distance_x;
+
+
                         drawView.drawArc(arc,null);
 
 
@@ -422,6 +466,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
                     }
                     if(command == DrawView.DrawCommand.DRAW_CIRCLE){
+
                         Log.d("data", start_x + "::::" + current_x);
                         if((current_x>start_x && current_y<start_y )|| (current_x<start_x && current_y>start_y)){
                             drawView.drawCircle(new Circle(new Rect(start_x,start_y,current_x,start_y-current_x+start_x)),null);
@@ -432,6 +477,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
 
                         }
+
 
                     }
                     if(command == DrawView.DrawCommand.DRAW_ARC){
@@ -444,15 +490,19 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
                 break;
             case MotionEvent.ACTION_UP:
+
                 current_x = event.getX()-revise_w;
                 current_y = event.getY()-revise_h;
                 if(moving){
                     has_find_which_moving = false;
                     move_CheckBox.setChecked(false);
 
-                    Log.d("data","NO MOVING____");
+
                     break;
                 }
+
+                Log.d("data","]]]]]]]]]]____");
+
 
                 if(command == DrawView.DrawCommand.DRAW_RECT){
                     DrawView.finished_list_Rect.add(new Rect(start_x, start_y, current_x, current_y));
@@ -466,6 +516,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
                 }
                 if(command == DrawView.DrawCommand.DRAW_CIRCLE){
+
 
                     if((current_x>start_x && current_y<start_y )|| (current_x<start_x && current_y>start_y)){
                         drawView.drawCircle(new Circle(new Rect(start_x,start_y,current_x,start_y-current_x+start_x)),null);
@@ -524,6 +575,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
     private Rect whichRectF_continuedraw(float x,float y){
+        if(moving)
+            return null;
         Rect rect = null;
         int r = 20;//用户手指头粗···点击的范围浮动
         for(int i=0;i<DrawView.finished_list_Rect.size();i++){
@@ -565,7 +618,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         Oval oval = null;
         for(int i = 0;i<DrawView.finished_list_Oval.size();i++){
             oval = DrawView.finished_list_Oval.get(i);
+
             if(x>oval.rect.left+10 && x<oval.rect.right - 10 && y > oval.rect.top+10 && y<oval.rect.bottom-10){
+
                 Log.d("data", "zhao dao la");
                 return oval;
 
@@ -574,6 +629,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         return null;
     }
     private Oval whichOval_continuedraw(float x,float y){
+        if(moving)
+            return null;
         Oval oval = null;
         float h = 0;
         float w = 0;
@@ -629,7 +686,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             circle = DrawView.finished_list_Circle.get(i);
             Log.d("data","---------"+circle.rect.left+"::"+circle.rect.right+"::"+circle.rect.top);
             Log.d("data","}}}}}}}"+x+"::"+y);
+
             if(x>circle.rect.left+10 && x<circle.rect.right - 10 && y > circle.rect.top+10 && y<circle.rect.bottom-10){
+
                 Log.d("data", "zhao dao la");
                 return circle;
 
@@ -640,6 +699,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
     private Circle whichCircle_continuedraw(float x, float y){
+        if(moving)
+            return null;
         Circle circle = null;
         float h = 0;
         float w = 0;
@@ -689,7 +750,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         Arc arc = null;
         for(int i = 0;i<DrawView.finished_list_Arc.size();i++){
             arc= DrawView.finished_list_Arc.get(i);
+
             if(x>arc.rect.left+10 && x<arc.rect.right - 10 && y > arc.rect.top+10 && y<arc.rect.bottom-10){
+
                 Log.d("data", "zhao dao la");
                 return arc;
 
@@ -699,6 +762,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         return null;
     }
     private Arc whichArc_continuedraw(float x,float y){
+        if(moving)
+            return null;
         Arc arc = null;
         int r = 20;//用户手指头粗···点击的范围浮动
         for(int i=0;i<DrawView.finished_list_Arc.size();i++){
@@ -739,6 +804,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
 
 
+
     public int getStatusBarHeight() {
         int result = 0;
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
@@ -752,4 +818,5 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     public boolean onTouch(View v, MotionEvent event) {
         return false;
     }
+
 }
